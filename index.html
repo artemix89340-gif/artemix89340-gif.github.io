@@ -3,105 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scanner et Importer QR Code</title>
-    
+    <title>QR Scanner Pro</title>
+    <!-- Favicon QR Code -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/241/241528.png">
+
     <!-- VOTRE BALISE GOOGLE ADSENSE -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9611622736064565"
      crossorigin="anonymous"></script>
 
-    <!-- Bibliothèque pour le scanner QR (via CDN) -->
+    <!-- Bibliothèque pour le scanner QR -->
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
     <style>
+        :root {
+            --primary-color: #4a90e2;
+            --bg-color: #f4f6f8;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --sidebar-width: 180px;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* En-tête / Header */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .lang-switch button {
+            background: none;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .lang-switch button:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Layout Principal */
+        .main-wrapper {
+            display: flex;
+            flex: 1;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        /* Colonnes latérales (Pubs) */
+        .ad-sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            background-color: transparent; /* Transparent pour se fondre */
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 20px;
         }
-        h1 { color: #333; }
-        .container {
-            width: 100%;
-            max-width: 500px;
-            background: white;
-            padding: 20px;
+        
+        /* Placeholder visuel pour la pub (à retirer quand les vraies pubs s'affichent) */
+        .ad-placeholder {
+            width: 160px;
+            height: 600px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        /* Contenu Central */
+        .content-area {
+            flex: 1;
+            max-width: 600px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 30px;
+            margin: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: fit-content;
+        }
+
+        .instructions {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #666;
+            line-height: 1.6;
+            background: #f8f9fa;
+            padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
         }
+
         #reader {
             width: 100%;
-            margin-top: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px dashed #ddd;
         }
+
         #result {
-            margin-top: 20px;
-            padding: 10px;
+            margin-top: 25px;
+            padding: 15px;
+            width: 100%;
             background-color: #e8f5e9;
-            border: 1px solid #c8e6c9;
+            border-left: 5px solid #4caf50;
             border-radius: 4px;
             word-break: break-all;
-            display: none; /* Masqué par défaut */
+            display: none;
+            box-sizing: border-box;
         }
-        .ads-container {
-            margin-top: 30px;
-            width: 100%;
-            text-align: center;
+
+        /* Responsive */
+        @media (max-width: 850px) {
+            .main-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+            .ad-sidebar {
+                width: 100%;
+                flex-direction: row;
+                justify-content: center;
+                min-height: 100px; /* Espace pour bannière mobile */
+            }
+            .ad-placeholder {
+                width: 300px;
+                height: 100px; /* Format mobile */
+            }
+            .content-area {
+                margin: 20px 0;
+                width: 90%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Scanner de QR Code</h1>
-        <p>Utilisez votre caméra ou importez une image.</p>
-        
-        <!-- Zone d'affichage du scanner -->
-        <div id="reader"></div>
-
-        <!-- Zone d'affichage du résultat -->
-        <div id="result">
-            <strong>Résultat du scan :</strong>
-            <span id="decoded-text"></span>
+    <!-- Header avec Logo et Switch Langue -->
+    <header>
+        <div class="logo-container">
+            <img src="https://cdn-icons-png.flaticon.com/512/241/241528.png" alt="QR Logo" class="logo-img">
+            <h1>QR Scanner Pro</h1>
         </div>
-    </div>
+        <div class="lang-switch">
+            <button onclick="toggleLanguage()" id="lang-btn">EN</button>
+        </div>
+    </header>
 
-    <!-- Espace pour l'affichage de la publicité -->
-    <div class="ads-container">
-        <!-- Vous pouvez placer une unité d'annonce spécifique ici si nécessaire -->
+    <div class="main-wrapper">
+        
+        <!-- Sidebar Gauche (Pub) -->
+        <aside class="ad-sidebar">
+            <div class="ad-placeholder">Google Ad Space<br>(160x600)</div>
+            <!-- Collez votre code d'annonce sidebar ici plus tard -->
+        </aside>
+
+        <!-- Zone Centrale (Scanner) -->
+        <main class="content-area">
+            <h2 id="title-text">Scanner de QR Code</h2>
+            
+            <div class="instructions">
+                <p id="desc-text">Utilisez votre caméra ou importez une image pour lire instantanément un QR Code.</p>
+            </div>
+
+            <!-- Scanner -->
+            <div id="reader"></div>
+
+            <!-- Résultat -->
+            <div id="result">
+                <strong id="res-label">Résultat :</strong>
+                <p id="decoded-text" style="margin: 5px 0 0 0; color: #2e7d32; font-weight: 500;"></p>
+            </div>
+        </main>
+
+        <!-- Sidebar Droite (Pub) -->
+        <aside class="ad-sidebar">
+            <div class="ad-placeholder">Google Ad Space<br>(160x600)</div>
+            <!-- Collez votre code d'annonce sidebar ici plus tard -->
+        </aside>
+
     </div>
 
     <script>
-        // Fonction appelée quand un QR code est détecté avec succès
+        // --- Gestion du Multilinguisme ---
+        let currentLang = 'fr';
+        
+        const texts = {
+            fr: {
+                title: "Scanner de QR Code",
+                desc: "Utilisez votre caméra ou importez une image pour lire instantanément un QR Code.",
+                resLabel: "Résultat :",
+                btn: "EN", // Texte du bouton pour passer en anglais
+                permReq: "Permission caméra requise",
+                scanFile: "Scanner un fichier image",
+                scanCam: "Scanner avec la caméra"
+            },
+            en: {
+                title: "QR Code Scanner",
+                desc: "Use your camera or import an image file to instantly read a QR Code.",
+                resLabel: "Result:",
+                btn: "FR", // Texte du bouton pour passer en français
+                permReq: "Camera permission required",
+                scanFile: "Scan an Image File",
+                scanCam: "Scan using Camera"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'fr' ? 'en' : 'fr';
+            updateTexts();
+        }
+
+        function updateTexts() {
+            const t = texts[currentLang];
+            document.getElementById('title-text').innerText = t.title;
+            document.getElementById('desc-text').innerText = t.desc;
+            document.getElementById('res-label').innerText = t.resLabel;
+            document.getElementById('lang-btn').innerText = t.btn;
+        }
+
+        // --- Logique du Scanner ---
+        
         function onScanSuccess(decodedText, decodedResult) {
-            // Afficher le résultat dans la console
             console.log(`Code scanné = ${decodedText}`, decodedResult);
             
-            // Afficher le résultat sur la page
             const resultDiv = document.getElementById('result');
             const resultText = document.getElementById('decoded-text');
             
             resultText.innerText = decodedText;
             resultDiv.style.display = "block";
             
-            // Optionnel : Arrêter le scan après une lecture réussie
-            // html5QrcodeScanner.clear();
+            // Faire défiler vers le résultat (utile sur mobile)
+            resultDiv.scrollIntoView({behavior: "smooth"});
         }
 
         function onScanFailure(error) {
-            // Gère les erreurs de scan (fréquent si aucun QR code n'est devant la caméra)
-            // On laisse vide pour ne pas spammer la console
-            // console.warn(`Erreur de scan = ${error}`);
+            // Silence les erreurs de scan continu
         }
 
-        // Configuration du scanner
-        // fps : nombre d'images par seconde
-        // qrbox : taille de la zone de scan
         let html5QrcodeScanner = new Html5QrcodeScanner(
             "reader",
-            { fps: 10, qrbox: { width: 250, height: 250 } },
-            /* verbose= */ false);
+            { 
+                fps: 10, 
+                qrbox: { width: 250, height: 250 },
+                rememberLastUsedCamera: true
+            },
+            /* verbose= */ false
+        );
 
         html5QrcodeScanner.render(onScanSuccess, onScanFailure);
     </script>
