@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Scanner Pro</title>
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/241/241528.png">
 
     <!-- 1. SCRIPT ADSENSE (GLOBAL) -->
@@ -15,20 +14,18 @@
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
     <!-- Police & Icones -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --glass-bg: rgba(255, 255, 255, 0.90);
-            --glass-border: 1px solid rgba(255, 255, 255, 0.3);
+            --btn-gradient: linear-gradient(45deg, #00b894, #00cec9);
+            --glass-bg: rgba(255, 255, 255, 0.92);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.5);
             --text-color: #2d3436;
-            --accent-color: #6c5ce7;
         }
 
-        html {
-            scroll-behavior: smooth; /* Défilement fluide */
-        }
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -48,83 +45,72 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- HEADER & NAV --- */
+        /* --- STYLES DES BOUTONS (Customisation forte) --- */
+        
+        /* Cible tous les boutons, y compris ceux générés par le scanner */
+        button, #reader button {
+            font-family: 'Poppins', sans-serif;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Boutons d'action principaux (Scanner, Langue, Modal) */
+        .big-btn, #reader button {
+            background: var(--btn-gradient) !important; /* Force la couleur verte/bleue */
+            color: white !important;
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            padding: 15px 35px !important;
+            border-radius: 50px !important;
+            box-shadow: 0 10px 20px rgba(0, 184, 148, 0.3) !important;
+            margin: 10px !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .big-btn:hover, #reader button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 184, 148, 0.5) !important;
+        }
+
+        /* Bouton spécifique pour l'import de fichier (souvent différent) */
+        #reader input[type="file"] {
+            margin-top: 10px;
+        }
+
+        /* Petit bouton langue header */
+        .lang-btn {
+            background: rgba(255,255,255,0.2) !important;
+            border: 1px solid rgba(255,255,255,0.4) !important;
+            padding: 8px 20px !important;
+            font-size: 0.9rem !important;
+            box-shadow: none !important;
+        }
+        .lang-btn:hover { background: rgba(255,255,255,0.4) !important; }
+
+        /* --- HEADER --- */
         header {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            padding: 10px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky; top: 0; z-index: 50;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-img { width: 45px; height: 45px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); }
+        h1 { margin: 0; font-size: 1.5rem; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        
+        nav ul { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }
+        nav a { text-decoration: none; color: white; font-weight: 500; opacity: 0.9; }
+        nav a:hover { opacity: 1; text-decoration: underline; }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-        }
-
-        .logo-img {
-            width: 40px;
-            height: 40px;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 1.4rem;
-            background: -webkit-linear-gradient(#667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 700;
-        }
-
-        /* Menu de navigation */
-        nav ul {
-            display: flex;
-            gap: 20px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #555;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: color 0.3s;
-        }
-
-        nav a:hover {
-            color: var(--accent-color);
-        }
-
-        /* Bouton Langue */
-        .lang-btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border: none;
-            color: white;
-            padding: 6px 16px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.8rem;
-            transition: transform 0.2s;
-        }
-        .lang-btn:hover { transform: scale(1.05); }
-
-        /* --- LAYOUT PRINCIPAL --- */
+        /* --- LAYOUT --- */
         .main-wrapper {
             display: flex;
             flex: 1;
@@ -134,123 +120,127 @@
             gap: 20px;
         }
 
-        /* Colonne Centrale */
         .center-column {
             flex: 1;
             max-width: 700px;
             display: flex;
             flex-direction: column;
-            gap: 30px; /* Espace entre les cartes */
+            gap: 30px;
             padding-bottom: 50px;
         }
 
-        /* Style des Cartes (Glassmorphism) */
         .card {
             background: var(--glass-bg);
             border: var(--glass-border);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             animation: fadeInUp 0.8s ease-out;
         }
 
-        /* Section Spécifique : Scanner */
-        .scanner-card {
-            text-align: center;
-        }
-
+        /* Scanner Specifics */
+        .scanner-card { text-align: center; }
         #reader {
             width: 100%;
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px dashed #ccc;
             margin: 20px 0;
+            background: #fafafa;
         }
+        
+        /* Customisation des liens générés par le scanner */
+        #reader a { color: #6c5ce7; font-weight: bold; }
 
         #result {
-            padding: 15px;
+            padding: 20px;
             background: #e8f5e9;
-            border-left: 5px solid #00b894;
-            border-radius: 8px;
+            border-left: 6px solid #00b894;
+            border-radius: 10px;
             display: none;
             word-break: break-all;
+            margin-top: 20px;
+            font-size: 1.1rem;
         }
 
-        /* Sections Texte en bas */
-        .info-section h2 {
-            color: var(--accent-color);
-            margin-top: 0;
-            font-size: 1.5rem;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-        .info-section p, .info-section li {
-            line-height: 1.7;
-            color: #444;
-        }
-        .step-list {
-            padding-left: 20px;
-        }
-        .highlight {
-            font-weight: bold;
-            color: #6c5ce7;
-        }
-
-        /* SIDEBARS (PUBS) */
-        .ad-sidebar {
-            width: 180px;
-            min-width: 180px;
-            padding-top: 0;
-        }
+        /* Sidebars */
+        .ad-sidebar { width: 180px; min-width: 180px; }
         .ad-slot {
-            position: sticky; /* Pub qui suit le scroll */
-            top: 100px;
-            width: 160px;
-            height: 600px;
-            background: rgba(255,255,255,0.2);
-            border: 2px dashed rgba(255,255,255,0.4);
-            border-radius: 8px;
+            position: sticky; top: 100px;
+            width: 160px; height: 600px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* --- MODAL POPUP --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
             display: flex;
-            align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 0.8rem;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 25px;
+            max-width: 500px;
             text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
         }
+        
+        .modal-overlay.active .modal-content { transform: translateY(0); }
 
-        @keyframes fadeInUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        .modal-icon { font-size: 4rem; margin-bottom: 20px; display: block; animation: bounce 2s infinite; }
 
-        /* Responsive Mobile */
+        @keyframes bounce { 0%, 100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
+        @keyframes fadeInUp { from {transform: translateY(30px);opacity: 0;} to {transform: translateY(0);opacity: 1;} }
+
+        /* Responsive */
         @media (max-width: 950px) {
             .main-wrapper { flex-direction: column; align-items: center; }
-            .ad-sidebar { 
-                width: 100%; 
-                flex-direction: row; 
-                justify-content: center; 
-                padding: 10px 0;
-            }
-            .ad-slot { 
-                position: static; 
-                width: 300px; height: 100px; /* Banner mobile */
-            }
-            nav ul { display: none; } /* Cache le menu texte sur mobile pour simplifier */
-            .header-left { gap: 10px; }
+            .ad-sidebar { width: 100%; flex-direction: row; justify-content: center; }
+            .ad-slot { position: static; width: 300px; height: 100px; }
+            nav ul { display: none; }
+            .modal-content { width: 80%; margin: 20px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- POPUP MODALE -->
+    <div id="camera-modal" class="modal-overlay active">
+        <div class="modal-content">
+            <span class="modal-icon">📸</span>
+            <h2 id="modal-title">Accès Caméra Requis</h2>
+            <p id="modal-desc" style="color:#666; margin: 20px 0; line-height: 1.6;">
+                Pour fonctionner, ce site a besoin d'un accès <strong>temporaire</strong> à votre caméra.<br>
+                Rassurez-vous : rien n'est enregistré et tout se passe directement dans votre navigateur.
+            </p>
+            <button class="big-btn" onclick="closeModal()" id="modal-btn">J'ai compris, continuons !</button>
+        </div>
+    </div>
+
+    <!-- HEADER -->
     <header>
         <div class="header-left">
             <a href="#" class="logo-container">
                 <img src="https://cdn-icons-png.flaticon.com/512/241/241528.png" alt="QR Logo" class="logo-img">
                 <h1>QR Scanner Pro</h1>
             </a>
-            
             <nav>
                 <ul>
                     <li><a href="#scanner-section" id="nav-scan">Scanner</a></li>
@@ -259,64 +249,58 @@
                 </ul>
             </nav>
         </div>
-        
         <button onclick="toggleLanguage()" class="lang-btn" id="lang-btn">🇺🇸 EN</button>
     </header>
 
+    <!-- CONTENU PRINCIPAL -->
     <div class="main-wrapper">
         
         <!-- PUB GAUCHE -->
         <aside class="ad-sidebar">
             <div class="ad-slot">
-                <!-- INSEREZ VOTRE CODE ADSENSE ICI (ID DU BLOC) -->
+                <!-- ADSENSE BLOCK -->
                 <ins class="adsbygoogle"
                      style="display:block; width:100%; height:100%"
                      data-ad-client="ca-pub-9611622736064565"
-                     data-ad-slot="VOTRE_ID_ICI" 
+                     data-ad-slot="VOTRE_ID_ICI"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-                <span style="position:absolute;">Ad Space</span>
             </div>
         </aside>
 
-        <!-- COLONNE CENTRALE (Contenu) -->
+        <!-- CENTRE -->
         <div class="center-column">
             
-            <!-- 1. Carte Scanner -->
+            <!-- SCANNER -->
             <section id="scanner-section" class="card scanner-card">
                 <h2 id="title-text">Scanner de QR Code</h2>
-                <p id="desc-text" style="color:#666;">Pointez votre caméra ou importez une image.</p>
+                <p id="desc-text" style="color:#666; margin-bottom:20px;">Cliquez sur le bouton ci-dessous pour démarrer.</p>
                 
+                <!-- Zone Scanner -->
                 <div id="reader"></div>
 
                 <div id="result">
-                    <strong id="res-label">Résultat trouvé :</strong>
-                    <p id="decoded-text" style="color: #00b894; font-weight: bold; margin-top: 5px;"></p>
+                    <strong id="res-label">Résultat :</strong>
+                    <p id="decoded-text" style="color: #00b894; font-weight: bold; margin-top: 10px;"></p>
                 </div>
             </section>
 
-            <!-- 2. Carte Fonctionnement -->
+            <!-- FONCTIONNEMENT -->
             <section id="how-it-works" class="card info-section">
-                <h2 id="how-title">Comment ça marche ?</h2>
-                <ol class="step-list">
-                    <li id="step1">Cliquez sur "Autoriser" si le navigateur demande l'accès à la caméra.</li>
-                    <li id="step2">Placez le QR Code bien au centre du carré de visée.</li>
-                    <li id="step3">Si vous n'avez pas de webcam, cliquez sur "Choisir une image" pour importer un fichier.</li>
-                    <li id="step4">Le lien ou le texte s'affichera instantanément en vert ci-dessus.</li>
-                </ol>
+                <h2 id="how-title" style="color: #6c5ce7;">Comment ça marche ?</h2>
+                <ul style="line-height: 1.8; color: #555;">
+                    <li id="step1">Acceptez la demande d'accès caméra dans la popup du navigateur.</li>
+                    <li id="step2">Cadrez le QR code dans le carré.</li>
+                    <li id="step3">Le lien s'affichera automatiquement.</li>
+                </ul>
             </section>
 
-            <!-- 3. Carte Soutien -->
+            <!-- SOUTIEN -->
             <section id="support-us" class="card info-section">
-                <h2 id="support-title">Soutenez ce projet gratuit</h2>
-                <p id="support-text">
-                    Nous avons créé cet outil pour qu'il soit <span class="highlight">100% gratuit et accessible à tous</span>, sans inscription.
-                    <br><br>
-                    Le maintien de ce site (hébergement, nom de domaine) a un coût. 
-                    Si vous voyez des publicités sur les côtés, c'est grâce à elles que nous pouvons continuer d'exister.
-                    <br><br>
-                    Merci de <strong>désactiver votre bloqueur de publicité</strong> pour nous soutenir ! ❤️
+                <h2 id="support-title" style="color: #6c5ce7;">Soutien Gratuit</h2>
+                <p id="support-text" style="color: #555;">
+                    Ce site est gratuit. Merci de désactiver AdBlock pour afficher les publicités qui financent l'hébergement. ❤️
                 </p>
             </section>
 
@@ -325,7 +309,7 @@
         <!-- PUB DROITE -->
         <aside class="ad-sidebar">
             <div class="ad-slot">
-                <!-- INSEREZ VOTRE CODE ADSENSE ICI (ID DU BLOC) -->
+                <!-- ADSENSE BLOCK -->
                 <ins class="adsbygoogle"
                      style="display:block; width:100%; height:100%"
                      data-ad-client="ca-pub-9611622736064565"
@@ -333,52 +317,53 @@
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-                <span style="position:absolute;">Ad Space</span>
             </div>
         </aside>
 
     </div>
 
     <script>
-        // --- Multilinguisme Complet ---
+        // --- 1. GESTION DE LA MODALE ---
+        function closeModal() {
+            document.getElementById('camera-modal').classList.remove('active');
+            // Optionnel : Lancer le scan automatiquement ici si désiré
+        }
+
+        // --- 2. MULTILINGUISME (Incluant la modale) ---
         let currentLang = 'fr';
         
         const texts = {
             fr: {
-                navScan: "Scanner",
-                navHow: "Fonctionnement",
-                navSupport: "Soutien",
+                // Modal
+                modalTitle: "Accès Caméra Requis",
+                modalDesc: "Pour fonctionner, ce site a besoin d'un accès <strong>temporaire</strong> à votre caméra.<br>Rien n'est enregistré.",
+                modalBtn: "J'ai compris, continuons !",
+                // Site
+                navScan: "Scanner", navHow: "Aide", navSupport: "Soutien",
                 title: "Scanner de QR Code",
-                desc: "Pointez votre caméra ou importez une image.",
-                resLabel: "Résultat trouvé :",
+                desc: "Cliquez ci-dessous pour démarrer.",
+                resLabel: "Résultat :",
                 btn: "🇺🇸 EN",
-                
                 howTitle: "Comment ça marche ?",
-                step1: "Cliquez sur 'Autoriser' si le navigateur demande l'accès à la caméra.",
-                step2: "Placez le QR Code bien au centre du carré de visée.",
-                step3: "Si vous n'avez pas de webcam, cliquez sur 'Choisir une image'.",
-                step4: "Le lien ou le texte s'affichera instantanément ci-dessus.",
-                
-                supportTitle: "Soutenez ce projet gratuit",
-                supportText: "Nous avons créé cet outil pour qu'il soit <span class='highlight'>100% gratuit</span>. Le maintien de ce site a un coût. Si vous voyez des publicités, c'est grâce à elles que nous existons. Merci de <strong>désactiver votre bloqueur de pub</strong> pour nous soutenir ! ❤️"
+                step1: "Acceptez la demande d'accès caméra.",
+                step2: "Cadrez le QR code.",
+                step3: "Le lien s'affiche automatiquement."
             },
             en: {
-                navScan: "Scanner",
-                navHow: "How it works",
-                navSupport: "Support us",
+                // Modal
+                modalTitle: "Camera Access Needed",
+                modalDesc: "This site needs <strong>temporary</strong> access to your camera to scan QR codes.<br>Nothing is recorded.",
+                modalBtn: "Got it, let's scan!",
+                // Site
+                navScan: "Scanner", navHow: "Help", navSupport: "Support",
                 title: "QR Code Scanner",
-                desc: "Point your camera or upload an image file.",
-                resLabel: "Scanned Result:",
+                desc: "Click below to start scanning.",
+                resLabel: "Result:",
                 btn: "🇫🇷 FR",
-                
                 howTitle: "How does it work?",
-                step1: "Click 'Allow' if your browser asks for camera access.",
-                step2: "Align the QR Code within the scanner frame.",
-                step3: "If you have no webcam, click 'Choose Image' to upload a file.",
-                step4: "The link or text will appear instantly above.",
-                
-                supportTitle: "Support this free project",
-                supportText: "We built this tool to be <span class='highlight'>100% free</span> for everyone. Hosting this site costs money. The ads you see help us cover these costs. Please consider <strong>disabling your adblocker</strong> to support us! ❤️"
+                step1: "Accept the browser camera request.",
+                step2: "Align the QR code.",
+                step3: "The link appears automatically."
             }
         };
 
@@ -386,38 +371,39 @@
             currentLang = currentLang === 'fr' ? 'en' : 'fr';
             const t = texts[currentLang];
 
-            // Menu
+            // Modal Update
+            document.getElementById('modal-title').innerText = t.modalTitle;
+            document.getElementById('modal-desc').innerHTML = t.modalDesc;
+            document.getElementById('modal-btn').innerText = t.modalBtn;
+
+            // Nav & Content Update
             document.getElementById('nav-scan').innerText = t.navScan;
             document.getElementById('nav-how').innerText = t.navHow;
-            document.getElementById('nav-support').innerText = t.navSupport;
             document.getElementById('lang-btn').innerText = t.btn;
-
-            // Scanner
             document.getElementById('title-text').innerText = t.title;
             document.getElementById('desc-text').innerText = t.desc;
             document.getElementById('res-label').innerText = t.resLabel;
-
-            // How it works
             document.getElementById('how-title').innerText = t.howTitle;
             document.getElementById('step1').innerText = t.step1;
             document.getElementById('step2').innerText = t.step2;
             document.getElementById('step3').innerText = t.step3;
-            document.getElementById('step4').innerText = t.step4;
-
-            // Support
-            document.getElementById('support-title').innerText = t.supportTitle;
-            document.getElementById('support-text').innerHTML = t.supportText;
         }
 
-        // --- Scanner Logic ---
+        // --- 3. SCANNER ---
         function onScanSuccess(decodedText) {
             document.getElementById('decoded-text').innerText = decodedText;
             document.getElementById('result').style.display = "block";
+            // Scroll vers le résultat
+            document.getElementById('result').scrollIntoView({behavior: "smooth"});
         }
 
         let html5QrcodeScanner = new Html5QrcodeScanner(
             "reader", 
-            { fps: 10, qrbox: {width: 250, height: 250} }, 
+            { 
+                fps: 10, 
+                qrbox: {width: 250, height: 250},
+                rememberLastUsedCamera: true
+            }, 
             false
         );
         html5QrcodeScanner.render(onScanSuccess);
