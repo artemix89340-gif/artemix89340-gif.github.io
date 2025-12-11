@@ -7,36 +7,39 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/241/241528.png">
 
-    <!-- 1. VOTRE SCRIPT ADSENSE (GLOBAL) -->
+    <!-- 1. SCRIPT ADSENSE (GLOBAL) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9611622736064565"
      crossorigin="anonymous"></script>
 
     <!-- Bibliothèque Scanner -->
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
-    <!-- Police Google Fonts -->
+    <!-- Police & Icones -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
+    
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --glass-bg: rgba(255, 255, 255, 0.95);
-            --sidebar-bg: rgba(255, 255, 255, 0.2);
+            --glass-bg: rgba(255, 255, 255, 0.90);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.3);
             --text-color: #2d3436;
             --accent-color: #6c5ce7;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Défilement fluide */
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             background: var(--primary-gradient);
             background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite; /* Animation du fond */
+            animation: gradientBG 15s ease infinite;
             color: var(--text-color);
             margin: 0;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         @keyframes gradientBG {
@@ -45,11 +48,11 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- HEADER --- */
+        /* --- HEADER & NAV --- */
         header {
             background: var(--glass-bg);
             backdrop-filter: blur(10px);
-            padding: 15px 30px;
+            padding: 10px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -57,73 +60,155 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            animation: slideDown 0.8s ease-out;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
+            text-decoration: none;
         }
 
         .logo-img {
-            width: 45px;
-            height: 45px;
-            animation: pulse 2s infinite;
+            width: 40px;
+            height: 40px;
         }
 
         h1 {
             margin: 0;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             background: -webkit-linear-gradient(#667eea, #764ba2);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 700;
         }
 
-        .lang-switch button {
+        /* Menu de navigation */
+        nav ul {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Bouton Langue */
+        .lang-btn {
             background: linear-gradient(45deg, #667eea, #764ba2);
             border: none;
             color: white;
-            padding: 8px 20px;
+            padding: 6px 16px;
             border-radius: 50px;
             cursor: pointer;
             font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 0.8rem;
+            transition: transform 0.2s;
         }
-
-        .lang-switch button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
+        .lang-btn:hover { transform: scale(1.05); }
 
         /* --- LAYOUT PRINCIPAL --- */
         .main-wrapper {
             display: flex;
             flex: 1;
-            margin-top: 30px;
+            margin-top: 20px;
             justify-content: center;
             padding: 0 20px;
             gap: 20px;
+        }
+
+        /* Colonne Centrale */
+        .center-column {
+            flex: 1;
+            max-width: 700px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* Espace entre les cartes */
+            padding-bottom: 50px;
+        }
+
+        /* Style des Cartes (Glassmorphism) */
+        .card {
+            background: var(--glass-bg);
+            border: var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Section Spécifique : Scanner */
+        .scanner-card {
+            text-align: center;
+        }
+
+        #reader {
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+
+        #result {
+            padding: 15px;
+            background: #e8f5e9;
+            border-left: 5px solid #00b894;
+            border-radius: 8px;
+            display: none;
+            word-break: break-all;
+        }
+
+        /* Sections Texte en bas */
+        .info-section h2 {
+            color: var(--accent-color);
+            margin-top: 0;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .info-section p, .info-section li {
+            line-height: 1.7;
+            color: #444;
+        }
+        .step-list {
+            padding-left: 20px;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #6c5ce7;
         }
 
         /* SIDEBARS (PUBS) */
         .ad-sidebar {
             width: 180px;
             min-width: 180px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 20px;
+            padding-top: 0;
         }
-
         .ad-slot {
+            position: sticky; /* Pub qui suit le scroll */
+            top: 100px;
             width: 160px;
             height: 600px;
-            background: rgba(255,255,255,0.1);
-            border: 2px dashed rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.2);
+            border: 2px dashed rgba(255,255,255,0.4);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -131,99 +216,51 @@
             color: white;
             font-size: 0.8rem;
             text-align: center;
-            overflow: hidden;
-            transition: all 0.3s;
-        }
-        
-        .ad-slot:hover {
-            border-color: rgba(255,255,255,0.6);
-            background: rgba(255,255,255,0.15);
-        }
-
-        /* ZONE CENTRALE */
-        .content-area {
-            flex: 1;
-            max-width: 650px;
-            background: var(--glass-bg);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            height: fit-content;
-            animation: fadeInUp 1s ease-out;
-            text-align: center;
-        }
-
-        .instructions {
-            margin-bottom: 30px;
-            color: #555;
-            line-height: 1.6;
-        }
-
-        #reader {
-            width: 100%;
-            border-radius: 15px;
-            overflow: hidden;
-            border: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        #result {
-            margin-top: 20px;
-            padding: 20px;
-            background: linear-gradient(to right, #e0f7fa, #e8f5e9);
-            border-left: 5px solid #00b894;
-            border-radius: 8px;
-            display: none; /* Caché par défaut */
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        /* --- ANIMATIONS KEYFRAMES --- */
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
 
         @keyframes fadeInUp {
-            from { transform: translateY(50px); opacity: 0; }
+            from { transform: translateY(30px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes popIn {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
+        /* Responsive Mobile */
+        @media (max-width: 950px) {
             .main-wrapper { flex-direction: column; align-items: center; }
             .ad-sidebar { 
                 width: 100%; 
                 flex-direction: row; 
                 justify-content: center; 
-                height: auto;
+                padding: 10px 0;
             }
-            .ad-slot { width: 300px; height: 100px; margin-bottom: 20px; } /* Format mobile */
-            .content-area { width: 90%; padding: 20px; }
+            .ad-slot { 
+                position: static; 
+                width: 300px; height: 100px; /* Banner mobile */
+            }
+            nav ul { display: none; } /* Cache le menu texte sur mobile pour simplifier */
+            .header-left { gap: 10px; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Header -->
     <header>
-        <div class="logo-container">
-            <img src="https://cdn-icons-png.flaticon.com/512/241/241528.png" alt="QR Logo" class="logo-img">
-            <h1>QR Scanner Pro</h1>
+        <div class="header-left">
+            <a href="#" class="logo-container">
+                <img src="https://cdn-icons-png.flaticon.com/512/241/241528.png" alt="QR Logo" class="logo-img">
+                <h1>QR Scanner Pro</h1>
+            </a>
+            
+            <nav>
+                <ul>
+                    <li><a href="#scanner-section" id="nav-scan">Scanner</a></li>
+                    <li><a href="#how-it-works" id="nav-how">Fonctionnement</a></li>
+                    <li><a href="#support-us" id="nav-support">Soutien</a></li>
+                </ul>
+            </nav>
         </div>
-        <div class="lang-switch">
-            <button onclick="toggleLanguage()" id="lang-btn">🇺🇸 EN</button>
-        </div>
+        
+        <button onclick="toggleLanguage()" class="lang-btn" id="lang-btn">🇺🇸 EN</button>
     </header>
 
     <div class="main-wrapper">
@@ -231,87 +268,151 @@
         <!-- PUB GAUCHE -->
         <aside class="ad-sidebar">
             <div class="ad-slot">
-                <!-- 2. BLOC D'ANNONCE DISPLAY -->
-                <!-- Remplacer data-ad-slot="XXXX" par l'ID de votre bloc créé sur AdSense -->
+                <!-- INSEREZ VOTRE CODE ADSENSE ICI (ID DU BLOC) -->
                 <ins class="adsbygoogle"
                      style="display:block; width:100%; height:100%"
                      data-ad-client="ca-pub-9611622736064565"
-                     data-ad-slot="REMPLACER_PAR_VOTRE_ID"
+                     data-ad-slot="VOTRE_ID_ICI" 
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                <span style="position:absolute;">Ad Space</span>
             </div>
         </aside>
 
-        <!-- SCANNER CENTRAL -->
-        <main class="content-area">
-            <h2 id="title-text">Scanner de QR Code</h2>
-            <p id="desc-text" class="instructions">Pointez votre caméra ou importez une image pour scanner.</p>
+        <!-- COLONNE CENTRALE (Contenu) -->
+        <div class="center-column">
             
-            <div id="reader"></div>
+            <!-- 1. Carte Scanner -->
+            <section id="scanner-section" class="card scanner-card">
+                <h2 id="title-text">Scanner de QR Code</h2>
+                <p id="desc-text" style="color:#666;">Pointez votre caméra ou importez une image.</p>
+                
+                <div id="reader"></div>
 
-            <div id="result">
-                <strong id="res-label">Résultat trouvé :</strong>
-                <p id="decoded-text" style="color: #00b894; font-weight: bold; font-size: 1.1rem; margin-top: 10px;"></p>
-            </div>
-        </main>
+                <div id="result">
+                    <strong id="res-label">Résultat trouvé :</strong>
+                    <p id="decoded-text" style="color: #00b894; font-weight: bold; margin-top: 5px;"></p>
+                </div>
+            </section>
+
+            <!-- 2. Carte Fonctionnement -->
+            <section id="how-it-works" class="card info-section">
+                <h2 id="how-title">Comment ça marche ?</h2>
+                <ol class="step-list">
+                    <li id="step1">Cliquez sur "Autoriser" si le navigateur demande l'accès à la caméra.</li>
+                    <li id="step2">Placez le QR Code bien au centre du carré de visée.</li>
+                    <li id="step3">Si vous n'avez pas de webcam, cliquez sur "Choisir une image" pour importer un fichier.</li>
+                    <li id="step4">Le lien ou le texte s'affichera instantanément en vert ci-dessus.</li>
+                </ol>
+            </section>
+
+            <!-- 3. Carte Soutien -->
+            <section id="support-us" class="card info-section">
+                <h2 id="support-title">Soutenez ce projet gratuit</h2>
+                <p id="support-text">
+                    Nous avons créé cet outil pour qu'il soit <span class="highlight">100% gratuit et accessible à tous</span>, sans inscription.
+                    <br><br>
+                    Le maintien de ce site (hébergement, nom de domaine) a un coût. 
+                    Si vous voyez des publicités sur les côtés, c'est grâce à elles que nous pouvons continuer d'exister.
+                    <br><br>
+                    Merci de <strong>désactiver votre bloqueur de publicité</strong> pour nous soutenir ! ❤️
+                </p>
+            </section>
+
+        </div>
 
         <!-- PUB DROITE -->
         <aside class="ad-sidebar">
             <div class="ad-slot">
-                <!-- 2. BLOC D'ANNONCE DISPLAY -->
+                <!-- INSEREZ VOTRE CODE ADSENSE ICI (ID DU BLOC) -->
                 <ins class="adsbygoogle"
                      style="display:block; width:100%; height:100%"
                      data-ad-client="ca-pub-9611622736064565"
-                     data-ad-slot="REMPLACER_PAR_VOTRE_ID"
+                     data-ad-slot="VOTRE_ID_ICI"
                      data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                <span style="position:absolute;">Ad Space</span>
             </div>
         </aside>
 
     </div>
 
     <script>
-        // --- Multilinguisme ---
+        // --- Multilinguisme Complet ---
         let currentLang = 'fr';
+        
         const texts = {
             fr: {
+                navScan: "Scanner",
+                navHow: "Fonctionnement",
+                navSupport: "Soutien",
                 title: "Scanner de QR Code",
-                desc: "Pointez votre caméra ou importez une image pour scanner.",
+                desc: "Pointez votre caméra ou importez une image.",
                 resLabel: "Résultat trouvé :",
-                btn: "🇺🇸 EN"
+                btn: "🇺🇸 EN",
+                
+                howTitle: "Comment ça marche ?",
+                step1: "Cliquez sur 'Autoriser' si le navigateur demande l'accès à la caméra.",
+                step2: "Placez le QR Code bien au centre du carré de visée.",
+                step3: "Si vous n'avez pas de webcam, cliquez sur 'Choisir une image'.",
+                step4: "Le lien ou le texte s'affichera instantanément ci-dessus.",
+                
+                supportTitle: "Soutenez ce projet gratuit",
+                supportText: "Nous avons créé cet outil pour qu'il soit <span class='highlight'>100% gratuit</span>. Le maintien de ce site a un coût. Si vous voyez des publicités, c'est grâce à elles que nous existons. Merci de <strong>désactiver votre bloqueur de pub</strong> pour nous soutenir ! ❤️"
             },
             en: {
+                navScan: "Scanner",
+                navHow: "How it works",
+                navSupport: "Support us",
                 title: "QR Code Scanner",
-                desc: "Point your camera or upload an image to scan instantly.",
+                desc: "Point your camera or upload an image file.",
                 resLabel: "Scanned Result:",
-                btn: "🇫🇷 FR"
+                btn: "🇫🇷 FR",
+                
+                howTitle: "How does it work?",
+                step1: "Click 'Allow' if your browser asks for camera access.",
+                step2: "Align the QR Code within the scanner frame.",
+                step3: "If you have no webcam, click 'Choose Image' to upload a file.",
+                step4: "The link or text will appear instantly above.",
+                
+                supportTitle: "Support this free project",
+                supportText: "We built this tool to be <span class='highlight'>100% free</span> for everyone. Hosting this site costs money. The ads you see help us cover these costs. Please consider <strong>disabling your adblocker</strong> to support us! ❤️"
             }
         };
 
         function toggleLanguage() {
             currentLang = currentLang === 'fr' ? 'en' : 'fr';
-            document.getElementById('title-text').innerText = texts[currentLang].title;
-            document.getElementById('desc-text').innerText = texts[currentLang].desc;
-            document.getElementById('res-label').innerText = texts[currentLang].resLabel;
-            document.getElementById('lang-btn').innerText = texts[currentLang].btn;
+            const t = texts[currentLang];
+
+            // Menu
+            document.getElementById('nav-scan').innerText = t.navScan;
+            document.getElementById('nav-how').innerText = t.navHow;
+            document.getElementById('nav-support').innerText = t.navSupport;
+            document.getElementById('lang-btn').innerText = t.btn;
+
+            // Scanner
+            document.getElementById('title-text').innerText = t.title;
+            document.getElementById('desc-text').innerText = t.desc;
+            document.getElementById('res-label').innerText = t.resLabel;
+
+            // How it works
+            document.getElementById('how-title').innerText = t.howTitle;
+            document.getElementById('step1').innerText = t.step1;
+            document.getElementById('step2').innerText = t.step2;
+            document.getElementById('step3').innerText = t.step3;
+            document.getElementById('step4').innerText = t.step4;
+
+            // Support
+            document.getElementById('support-title').innerText = t.supportTitle;
+            document.getElementById('support-text').innerHTML = t.supportText;
         }
 
-        // --- Logique Scanner ---
-        function onScanSuccess(decodedText, decodedResult) {
-            console.log(`Scan result: ${decodedText}`, decodedResult);
-            const resultDiv = document.getElementById('result');
+        // --- Scanner Logic ---
+        function onScanSuccess(decodedText) {
             document.getElementById('decoded-text').innerText = decodedText;
-            
-            // Jouer un petit son de succès (optionnel)
-            // new Audio('https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3').play();
-            
-            resultDiv.style.display = "block";
+            document.getElementById('result').style.display = "block";
         }
 
         let html5QrcodeScanner = new Html5QrcodeScanner(
